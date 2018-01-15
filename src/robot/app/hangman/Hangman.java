@@ -171,7 +171,26 @@ public class Hangman {
     }
 
     public void readPlaceholders(){
+        // Read placeholders
         /*
+        while(true){
+            RGB color = sensor.getRGB();
+            if(color.matches(black, ERROR_MARGIN)){
+                System.out.println("Black");
+            }
+            else if(color.matches(white, ERROR_MARGIN)){
+                System.out.println("White");
+            }
+            else{
+                System.out.println("XXX");
+            }
+    
+            if(Button.ESCAPE.isDown()){
+                break;
+            }
+        }
+        */
+
         robot.move.forward();
         RGB color = sensor.getRGB();
         // Beginning
@@ -200,8 +219,14 @@ public class Hangman {
                     result.add(i);
                     Delay.msDelay(10);
                     // Continue to next placeholder
-                    while(!color.matches(black, ERROR_MARGIN)){
+                    int blackCounter = 0;
+                    while(blackCounter < 3){
+                    //while(!color.matches(black, ERROR_MARGIN)){
                         color = sensor.getRGB();
+                        if(color.matches(black, ERROR_MARGIN)){
+                            blackCounter++;
+                        }
+                        Delay.msDelay(10);
                     }
                     break;
                 }
@@ -221,26 +246,6 @@ public class Hangman {
         System.out.println(Arrays.toString(result.toArray()));
         robot.move.stop();
         Button.ESCAPE.waitForPressAndRelease();
-        */
-
-        // Read placeholders
-        while(true){
-            RGB color = sensor.getRGB();
-            if(color.matches(black, 0.2f)){
-                System.out.println("Black");
-            }
-            else if(color.matches(white, 0.2f)){
-                System.out.println("White");
-            }
-            else{
-                System.out.println("XXX");
-            }
-    
-            if(Button.ESCAPE.isDown()){
-                break;
-            }
-        }
-
 
             //color = sensor.getRGB();
             //if(!color.matches(black, 0.2f)){
