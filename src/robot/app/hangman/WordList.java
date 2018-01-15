@@ -21,8 +21,8 @@ public class WordList {
     LinkedHashMap<Character, Integer> letterCounts = new LinkedHashMap<>();
 
     public WordList(){
-            System.out.println("Working Directory = " +
-              System.getProperty("user.dir"));
+            //System.out.println("Working Directory = " +
+              //System.getProperty("user.dir"));
 
 
         this.list = loadJSON(WORDLIST_JSON_PATH);
@@ -56,7 +56,7 @@ public class WordList {
         // reset
         letterCounts = new LinkedHashMap<>();
 
-        System.out.println("Counting . . .");
+        //System.out.println("Counting . . .");
         // For each word
         for (String word : list){
             // For each character
@@ -72,9 +72,9 @@ public class WordList {
                 }
             }
         }
-        System.out.println("Done counting.");
-        System.out.println(letterCounts);
-        System.out.println(list);
+        //System.out.println("Done counting.");
+        //System.out.println(letterCounts);
+        //System.out.println(list);
     }
 
     /**

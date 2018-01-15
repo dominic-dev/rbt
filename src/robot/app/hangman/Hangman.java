@@ -1,6 +1,7 @@
 package robot.app.hangman;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import helpers.Console;
 
@@ -31,6 +32,8 @@ public class Hangman {
     char lastGuess;
     Robot robot;
     ColorSensor sensor;
+    boolean blackState;
+    final float ERROR_MARGIN = 0.2f;
 
     public Hangman(Robot robot){
         this.robot = robot;
@@ -168,7 +171,87 @@ public class Hangman {
     }
 
     public void readPlaceholders(){
+        /*
         robot.move.forward();
+        RGB color = sensor.getRGB();
+        // Beginning
+        while(color.matches(black, ERROR_MARGIN)){
+            color = sensor.getRGB();
+            if(Button.ESCAPE.isDown()){
+                break;
+            }
+        }
+
+        Delay.msDelay(10);
+
+        ArrayList<Integer> result = new ArrayList<>();
+        // Read placeholder
+        for(int i=0; i<4; i++){
+            // Read untill next black
+            while(!color.matches(black, ERROR_MARGIN)){
+                color = sensor.getRGB();
+                // Next placeholder
+                if(color.matches(black, ERROR_MARGIN)){
+                    break;
+                }
+                // Item detected
+                if(!color.matches(white, ERROR_MARGIN)){
+                    System.out.println("Item detected");
+                    result.add(i);
+                    Delay.msDelay(10);
+                    // Continue to next placeholder
+                    while(!color.matches(black, ERROR_MARGIN)){
+                        color = sensor.getRGB();
+                    }
+                    break;
+                }
+                if(Button.ESCAPE.isDown()){
+                    break;
+                }
+            }
+            Delay.msDelay(10);
+            while(color.matches(black, ERROR_MARGIN)){
+                color = sensor.getRGB();
+                if(Button.ESCAPE.isDown()){
+                    break;
+                }
+            }
+            Delay.msDelay(10);
+        }
+        System.out.println(Arrays.toString(result.toArray()));
+        robot.move.stop();
+        Button.ESCAPE.waitForPressAndRelease();
+        */
+
+        // Read placeholders
+        while(true){
+            RGB color = sensor.getRGB();
+            if(color.matches(black, 0.2f)){
+                System.out.println("Black");
+            }
+            else if(color.matches(white, 0.2f)){
+                System.out.println("White");
+            }
+            else{
+                System.out.println("XXX");
+            }
+    
+            if(Button.ESCAPE.isDown()){
+                break;
+            }
+        }
+
+
+            //color = sensor.getRGB();
+            //if(!color.matches(black, 0.2f)){
+                //break;
+            //}
+            //if(Button.ESCAPE.isDown()){
+                //break;
+            //}
+        //}
+        //robot.move.stop();
+        /*
         ArrayList<Integer> result = new ArrayList<>();
         int blackState = 1;
         int counter = 0;
@@ -181,13 +264,21 @@ public class Hangman {
                 break;
             }
         }
-        while(counter < 1){
+
+        while(counter < 3){
             color = sensor.getRGB();
             if(color.matches(black, 0.2f)){
                 blackState = 1;
                 counter++;
+                while(blackState == 1){
+                    color = sensor.getRGB();
+                    if(!color.matches(black)){
+                        blackState = 0;
+                    }
+                }
             }
         }
+        */
         
         
     }
