@@ -17,7 +17,7 @@ public class Main {
         //hangman.calibrateColors();
         //System.out.println("Press enter to continue");
         Button.ENTER.waitForPressAndRelease();
-        hangman.readPlaceholdersWithRobot();
+        hangman.readPlaceholdersRobot();
 	}
 
     // Hangman

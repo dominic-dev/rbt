@@ -15,14 +15,15 @@ import org.json.JSONArray;
 import helpers.MapUtil;
 
 public class WordList {
-    final String WORDLIST_JSON_PATH = "games/hangman/four_letter_words.json";
+    //final String WORDLIST_JSON_PATH = "games/hangman/four_letter_words.json";
+    final String WORDLIST_JSON_PATH = "src/robot/app/hangman/four_letter_words.json";
 
     ArrayList<String> list = new ArrayList<>();
     LinkedHashMap<Character, Integer> letterCounts = new LinkedHashMap<>();
 
     public WordList(){
-            //System.out.println("Working Directory = " +
-              //System.getProperty("user.dir"));
+            System.out.println("Working Directory = " +
+              System.getProperty("user.dir"));
 
 
         this.list = loadJSON(WORDLIST_JSON_PATH);
@@ -105,8 +106,14 @@ public class WordList {
      * Remove words not containing a character
      **/
     public void removeWordsContaining(char character){
-        // TODO implement java 7 solution
-        //list.removeIf(s -> s.contains(String.valueOf(character)));
+        Iterator<String> iterator = list.iterator();
+        while(iterator.hasNext()){
+            String word = iterator.next();
+            if (word.contains(String.valueOf(character))){
+                iterator.remove();
+            }
+        
+        }
     }
 
     /**
@@ -117,14 +124,32 @@ public class WordList {
      **/
     public void removeWordsNotMatchingCorrectGuess(char character, ArrayList<Integer> positions){
         // For each word
-        for (String word : list){
+        Iterator<String> iterator = list.iterator();
+        while(iterator.hasNext()){
+            String word = iterator.next();
+            boolean match = true;
+            // Fast but not accurate
+            //if(!word.contains(String.valueOf(character))){
+                //iterator.remove();
+            //}
+
+
+            // Slow but accurate
             // For each character
             char[] characters = word.toCharArray();
             for (int i : positions){
-                if (word.charAt(i) != characters[i]){
-                    list.remove(word);
+                if (word.charAt(i) != character){
+                    match = false;
                 }
             }
+            // Iterator cannot appear in for loop
+            if(!match){
+                iterator.remove();
+            }
         }
+    }
+
+    public String guessWord(){
+        return list.get(0);
     }
 }
