@@ -152,6 +152,7 @@ public class Driver {
 
 	public void stop() {
 		leftWheelMotor[0].synchronizeWith(rightWheelMotor);
+        leftWheel.startSynchronization();
 		leftWheel.stop();
 		rightWheel.stop();
 		leftWheelMotor[0].endSynchronization();

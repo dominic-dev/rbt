@@ -263,8 +263,12 @@ public class Hangman {
                 Delay.msDelay(10);
             }
         }
-        System.out.println(Arrays.toString(result.toArray()));
         robot.move.stop();
+        // Drive back
+        robot.move.backward();
+        Delay.msDelay(3500);
+        robot.move.stop();
+        System.out.println(Arrays.toString(result.toArray()));
         Button.ESCAPE.waitForPressAndRelease();
         return result;
     }
