@@ -16,7 +16,7 @@ public class BAO {
 	private Brick brick = BrickFinder.getDefault();
 	private Port leftMotorPort = brick.getPort("A");
 	private Port rightMotorPort = brick.getPort("B");
-	//private Port smallMotorPort = brick.getPort("C");
+	private Port smallMotorPort = brick.getPort("C");
 	private Port colorSensorPort = brick.getPort("S1");
 	private Port touchSensorPort = brick.getPort("S2");
 	
@@ -64,5 +64,13 @@ public class BAO {
 
 	public Port getTouchSensorPort() {
 		return touchSensorPort;
+	}
+
+	public Port getSmallMotorPort() {
+		return smallMotorPort;
+	}
+
+	public void setSmallMotorPort(Port smallMotorPort) {
+		this.smallMotorPort = smallMotorPort;
 	}
 }

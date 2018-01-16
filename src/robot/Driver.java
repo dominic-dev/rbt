@@ -13,16 +13,18 @@ import lejos.utility.Delay;
 public class Driver {
 	Wheel leftWheel;
 	Wheel rightWheel;
+	EV3LargeRegulatedMotor[] leftWheelMotor;
+	EV3LargeRegulatedMotor[] rightWheelMotor;
 
 	public Driver(Port leftMotorPort, Port rightMotorPort) {
 		leftWheel = new Wheel(leftMotorPort);
-		rightWheel = new Wheel(rightMotorPort);
+		rightWheel = new Wheel(rightMotorPort);		
+		EV3LargeRegulatedMotor[] motor1 = {leftWheel};
+		EV3LargeRegulatedMotor[] motor2 = {rightWheel};
+		this.leftWheelMotor = motor1;
+		this.rightWheelMotor = motor2;
 	}
 
-    public Driver(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor) {
-        leftWheel = new Wheel(leftMotor);
-        rightWheel = new Wheel(rightMotor);
-    }
 
 	/**
 	 * Turn left
@@ -110,6 +112,21 @@ public class Driver {
 		rightWheel.forward();
 		leftWheel.stop();
 	}
+	/**
+	 * turn Right backwards
+	 */
+	public void turnRightBack() {
+		rightWheel.stop();
+		leftWheel.backward();
+	}
+	
+	/**
+	 * turn Left backwards
+	 */
+	public void turnLeftBack() {
+		rightWheel.backward();
+		leftWheel.stop();
+	}
 
     /**
      * Drive forward
@@ -130,18 +147,23 @@ public class Driver {
     /**
      * Stop moving
      **/
+	//		leftWheelMotor[0].synchronizeWith(rightWheelMotor);
+	//		leftWheelMotor[0].endSynchronization();
+
 	public void stop() {
+		leftWheelMotor[0].synchronizeWith(rightWheelMotor);
 		leftWheel.stop();
 		rightWheel.stop();
+		leftWheelMotor[0].endSynchronization();
 	}
 
     /**
      * Set velocity
      * @param velocity the velocity
      **/
-	public void setVelocity(int velocity) {
-		leftWheel.setVelocity(velocity);
-		rightWheel.setVelocity(velocity);
+	public void setSpeed(int velocity) {
+		leftWheel.setSpeed(velocity);
+		rightWheel.setSpeed(velocity);
 	}
 
     /**

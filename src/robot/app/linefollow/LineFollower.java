@@ -22,12 +22,14 @@ public class LineFollower {
     private ColorSensor sensor;
     private EV3LargeRegulatedMotor leftMotor;
     private EV3LargeRegulatedMotor rightMotor;
+    private Lcd screen;
 
     public LineFollower(Robot robot){
         this.robot = robot;
         this.sensor = new ColorSensor(robot.getBao().getColorSensorPort());
         leftMotor = robot.getBao().getLeftMotor();
         rightMotor = robot.getBao().getRightMotor();
+        screen = new Lcd();
     }
 
     /**
@@ -40,12 +42,12 @@ public class LineFollower {
         float black = sensor.calibrateRed("black");
         midpoint = (white - black) / 2 + black;
         // Ready
-        Lcd.clear();
-        Lcd.write("READY");
-        Lcd.write("Press ENTER to continue");
+        screen.clear();
+        screen.write("READY");
+        screen.write("Press ENTER to continue");
         Button.ENTER.waitForPressAndRelease();
-        Lcd.clear();
-        Lcd.write("Following");
+        screen.clear();
+        screen.write("Following");
         while(!Button.ESCAPE.isDown()){
             loop();
         }
@@ -58,7 +60,7 @@ public class LineFollower {
      **/
     public void loop(){
         // If button is pressed kp += ?
-        Lcd.write(String.format("Pk is: %f", kp));
+        screen.write(String.format("Pk is: %f", kp));
         // TODO value omzetten in bruikbare waarde
         float value = sensor.getRedValue();
         float correction = kp * (midpoint - value);

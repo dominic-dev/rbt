@@ -14,10 +14,10 @@ public class Main {
         //rufus.debugColor();
         //hangman(rufus);
         Hangman hangman = new Hangman(rufus);
-        hangman.calibrateColors();
-        System.out.println("Press enter to continue");
+        //hangman.calibrateColors();
+        //System.out.println("Press enter to continue");
         Button.ENTER.waitForPressAndRelease();
-        hangman.readPlaceholders();
+        hangman.readPlaceholdersWithRobot();
 	}
 
     // Hangman

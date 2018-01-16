@@ -9,6 +9,8 @@ import lejos.utility.Delay;
 import robot.color.RGB;
 
 public class ColorSensor extends EV3ColorSensor{
+	
+	Lcd screen = new Lcd();
 
     public ColorSensor(Port port){
         super(port);
@@ -42,11 +44,11 @@ public class ColorSensor extends EV3ColorSensor{
      * @return the colorID
      **/
     public int calibrateID(String colorName){
-        Lcd.write("Put the robot on a white surface\nAnd press Enter");
+        screen.write("Put the robot on a white surface\nAnd press Enter");
         Button.ENTER.waitForPressAndRelease();
         int color = getColorID();
-        Lcd.clear();
-        Lcd.write("Done calibrating");
+        screen.clear();
+        screen.write("Done calibrating");
         Delay.msDelay(1000);
         return color;
     }
@@ -57,11 +59,11 @@ public class ColorSensor extends EV3ColorSensor{
      * @return the colorID
      **/
     public RGB calibrateRGB(String colorName){
-        Lcd.write("Put the robot on a white surface\nAnd press Enter");
+        screen.write("Put the robot on a white surface\nAnd press Enter");
         Button.ENTER.waitForPressAndRelease();
         float[]color = getRGBValue();
-        Lcd.clear();
-        Lcd.write("Done calibrating");
+        screen.clear();
+        screen.write("Done calibrating");
         Delay.msDelay(1000);
         return new RGB(color);
     }
@@ -72,11 +74,11 @@ public class ColorSensor extends EV3ColorSensor{
      * @return the red value
      **/
     public float calibrateRed(String colorName){
-        Lcd.write("Put the robot on a white surface\nAnd press Enter");
+        screen.write("Put the robot on a white surface\nAnd press Enter");
         Button.ENTER.waitForPressAndRelease();
         float color = getRedValue();
-        Lcd.clear();
-        Lcd.write("Done calibrating");
+        screen.clear();
+        screen.write("Done calibrating");
         Delay.msDelay(1000);
         return color;
     }

@@ -6,6 +6,7 @@ import java.util.Arrays;
 import helpers.Console;
 
 import lejos.hardware.Button;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.utility.Delay;
 
 import robot.ColorSensor;
@@ -27,8 +28,11 @@ public class Hangman {
 
     ArrayList<Integer> lastChangedPositions = new ArrayList<>();
 
-    RGB black;
-    RGB white;
+    //RGB black;
+    //RGB white;
+    int black;
+    int white;
+    int red;
     char lastGuess;
     Robot robot;
     ColorSensor sensor;
@@ -164,14 +168,32 @@ public class Hangman {
     public void calibrateColors(){
         System.out.println("Calibrate black");
         Button.ENTER.waitForPressAndRelease();
-        black = sensor.getRGB();
+        black = sensor.getColorID();
+        //black = sensor.getRGB();
         System.out.println("Calibrate white");
+        white = sensor.getColorID();
         Button.ENTER.waitForPressAndRelease();
-        white = sensor.getRGB();
+        //white = sensor.getRGB();
+        System.out.println("Calibrate red");
+        red = sensor.getColorID();
+        Button.ENTER.waitForPressAndRelease();
     }
 
-    public void readPlaceholders(){
+    public void readPlaceholdersWithRobot(){
         // Read placeholders
+        //while(true){
+            //int colorID = sensor.getColorID();
+            //System.out.println(colorID);
+            //if(Button.ESCAPE.isDown()){
+                //break;
+            //}
+            //Delay.msDelay(10);
+        //}
+
+        black = 7;
+        white = 6;
+        red = 0;
+
         /*
         while(true){
             RGB color = sensor.getRGB();
@@ -192,6 +214,47 @@ public class Hangman {
         */
 
         robot.move.forward();
+        robot.move.setSpeed(400);
+        // Read until first placeholder
+        int colorID = sensor.getColorID();
+        while(colorID == black){
+            colorID = sensor.getColorID();
+            Delay.msDelay(10);
+        }
+
+        ArrayList<Integer> result = new ArrayList();
+
+        // Read first placeholder
+        for(int i=1; i<=4; i++){
+            while(colorID != black){
+                Delay.msDelay(10);
+                colorID = sensor.getColorID();
+                System.out.println(colorID);
+                if (colorID == red){
+                    Delay.msDelay(200);
+                }
+                // Double check because of transition errors
+                colorID = sensor.getColorID();
+                if (colorID == red){
+                    if(!result.contains(i)){
+                        result.add(i);
+                    }
+                }
+            }
+            // Drive over separator
+            Delay.msDelay(10);
+            colorID = sensor.getColorID();
+            while(colorID == black){
+                colorID = sensor.getColorID();
+                Delay.msDelay(10);
+            }
+        }
+        System.out.println(Arrays.toString(result.toArray()));
+        robot.move.stop();
+        Button.ESCAPE.waitForPressAndRelease();
+        
+
+        /*
         RGB color = sensor.getRGB();
         // Beginning
         while(color.matches(black, ERROR_MARGIN)){
@@ -211,23 +274,40 @@ public class Hangman {
                 color = sensor.getRGB();
                 // Next placeholder
                 if(color.matches(black, ERROR_MARGIN)){
-                    break;
+                    int blackCounter = 0;
+                    for(int j=0; i<2; j++){
+                        RGB tempColor = sensor.getRGB();
+                        if (tempColor.matches(black)){
+                            blackCounter++;
+                        }
+                        Delay.msDelay(10);
+                    }
+                    if(blackCounter == 2){
+                        System.out.println("Nothing found");
+                        // Next placeholder
+                        break;
+                    }
                 }
                 // Item detected
                 if(!color.matches(white, ERROR_MARGIN)){
                     System.out.println("Item detected");
                     result.add(i);
-                    Delay.msDelay(10);
+                    //Delay.msDelay(10);
+                    //int blackCounter = 0;
+                    //while(blackCounter < 3){
+                    ////while(!color.matches(black, ERROR_MARGIN)){
+                        //color = sensor.getRGB();
+                        //if(color.matches(black, ERROR_MARGIN)){
+                            //System.out.println(String.format("Black detected %d times", blackCounter));
+                            //blackCounter++;
+                            //Delay.msDelay(10);
+                        //}
+                        //else{
+                            //System.out.println("False black, continuing placeholder");
+                            //break;
+                        //}
+                    //}
                     // Continue to next placeholder
-                    int blackCounter = 0;
-                    while(blackCounter < 3){
-                    //while(!color.matches(black, ERROR_MARGIN)){
-                        color = sensor.getRGB();
-                        if(color.matches(black, ERROR_MARGIN)){
-                            blackCounter++;
-                        }
-                        Delay.msDelay(10);
-                    }
                     break;
                 }
                 if(Button.ESCAPE.isDown()){

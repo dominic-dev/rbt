@@ -47,14 +47,14 @@ public class Lcd {
 	 * @param w in screen
 	 * @param h in screen
 	 */
-	public static void writeToScreen(String message, int w, int h) {
+	public void writeToScreen(String message, int w, int h) {
 		screen.drawString(message, w, h);
 	}
 	
 	/**	 * 
 	 * @param message to display, fitting to screen
 	 */
-	public static void write(String message) {
+	public void write(String message) {
 		ArrayList<String> printset = messageBuilderList(message);
 		
 		write(printset);
@@ -66,7 +66,7 @@ public class Lcd {
 	/**
 	 * @param message to display
 	 */
-	public static void write(String[] message) {
+	public void write(String[] message) {
 
 		for (int i = 0; i < message.length; i++) {
 			writeToScreen(message[i], START, i);
@@ -75,7 +75,7 @@ public class Lcd {
 	/**
 	 * @param message to display
 	 */
-	public static void write(ArrayList<String> message) {
+	public void write(ArrayList<String> message) {
 		
 		for (int i = 0; i < message.size(); i++) {
 			writeToScreen(message.get(i), START, i);
@@ -88,7 +88,7 @@ public class Lcd {
 	 *            gets cut up in strings that fit the w of the screen
 	 * @return a lcd printable array, [i] = row
 	 */
-	public static String[] messageBuilderArray(String message) {
+	public String[] messageBuilderArray(String message) {
 		String[] printable = (String[]) messageBuilderList(message).toArray();
 		return printable;
 	}
@@ -97,7 +97,7 @@ public class Lcd {
 	 * @param message gets cut up in strings that fit the w of the screen
 	 * @return a list of strings that fit the screen
 	 */
-	public static ArrayList<String> messageBuilderList(String message) {
+	public ArrayList<String> messageBuilderList(String message) {
 
 		// load the string in a stringbuilder
 		StringBuilder builder = new StringBuilder(message);
@@ -144,7 +144,7 @@ public class Lcd {
 	 *            to fill
 	 * @return
 	 */
-	public static String screenFiller(int fillLines) {
+	public String screenFiller(int fillLines) {
 		// string 17 chars wide (max)
 		String baseString = "012345678901end";
 		String printableScreen = "";
@@ -156,10 +156,9 @@ public class Lcd {
 		return printableScreen;
 	}
 
-    public static void clear(){
+    public void clear(){
         for(int i=0; i<9; i++){
             System.out.println("");
         }
     }
-
 }

@@ -17,7 +17,7 @@ public class SoundPlayer {
 	}
 
 	// plays selected file at selected volume
-	public static void play(String wavName,int volume){
+	public void play(String wavName,int volume){
 		File soundFile = new File(wavName);
 		Sound.setVolume(volume);
 		Sound.playSample(soundFile);
@@ -29,7 +29,6 @@ public class SoundPlayer {
 		File soundFile = new File(wavName);
 		Sound.setVolume(volume);
 		Sound.playSample(soundFile);
-		
 	}
 	
 	// plays selected file at selected volume when start is true
@@ -39,9 +38,6 @@ public class SoundPlayer {
 			Sound.setVolume(volume);
 			Sound.playSample(soundFile);
 		}
-		
-		
-		
 	}
 	
 	// plays beepsequence at selected volume
