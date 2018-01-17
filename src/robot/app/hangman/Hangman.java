@@ -50,7 +50,7 @@ public class Hangman {
     /**
      * The game loop
      **/
-    public void run(){
+    public void runConsole(){
         while(checkWinOrLoose() == false){
             System.out.println("Unguessed positions:");
             System.out.println(Arrays.toString(unGuessedPositions.toArray()));
@@ -66,7 +66,8 @@ public class Hangman {
                     changedPositions.add(unGuessedPositions.get(0));
                 }
                 else{
-                    changedPositions = getChangedPositionsConsole();
+                    //changedPositions = getChangedPositionsConsole();
+                    changedPositions = getChangedPositionsRobot();
                     System.out.println("Changed positions");
                     System.out.println(Arrays.toString(changedPositions.toArray()));
                     //changedPositions = readPlaceholdersConsole();
@@ -78,6 +79,43 @@ public class Hangman {
             }
 
             wordlist.analyzeLetterCount();
+        }
+    }
+
+
+    /**
+     * The robot game loop
+     **/
+    public void runRobot(){
+        System.out.println("==============");
+        System.out.println("    GALGJE");
+        System.out.println("==============");
+
+
+        while(checkWinOrLoose() == false){
+            char guess = guessLetter();
+            System.out.println(String.format("Zit %s erin?", guess));
+
+            System.out.println("Leg de kaartjes op de juiste plek.");
+            System.out.println("En druk op ENTER");
+            Button.ENTER.waitForPressAndRelease();
+
+            ArrayList<Integer> changedPositions = getChangedPositionsRobot();
+            // TODO for testing
+            System.out.println("Changed positions");
+            System.out.println(Arrays.toString(changedPositions.toArray()));
+            
+            removeFromUnguessedPositions(changedPositions);
+            if (changedPositions.size() > 0){
+                correctGuess(changedPositions);
+            }
+            else{
+                wrongGuess();
+            }
+            wordlist.analyzeLetterCount();
+            if(Button.ESCAPE.isDown()){
+                break;
+            }
         }
     }
 
@@ -171,10 +209,12 @@ public class Hangman {
     public void gameWin(){
         String word = wordlist.guessWord();
         System.out.println(String.format("Is the word %s?", word));
+        Button.ESCAPE.waitForPressAndRelease();
     }
 
     public void gameOver(){
         System.out.println("I lost.");
+        Button.ESCAPE.waitForPressAndRelease();
     }
 
     public boolean getFeedback(){
@@ -201,10 +241,25 @@ public class Hangman {
         Iterator<Integer> iterator = guessedPositions.iterator();
         while(iterator.hasNext()){
             Integer i = iterator.next();
-            if(lastChangedPositions.contains(i)){
+            if(!unGuessedPositions.contains(i)){
+                //if(lastChangedPositions.contains(i)){
                 iterator.remove();
             }
         
+        }
+        lastChangedPositions = guessedPositions;
+        return guessedPositions;
+    }
+
+    public ArrayList<Integer> getChangedPositionsRobot(){
+        ArrayList<Integer> guessedPositions = readPlaceholdersRobot();
+        Iterator<Integer> iterator = guessedPositions.iterator();
+        while(iterator.hasNext()){
+            Integer i = iterator.next();
+            if(!unGuessedPositions.contains(i)){
+            //if(lastChangedPositions.contains(i)){
+                iterator.remove();
+            }
         }
         lastChangedPositions = guessedPositions;
         return guessedPositions;
@@ -234,6 +289,9 @@ public class Hangman {
         while(colorID == black){
             colorID = sensor.getColorID();
             Delay.msDelay(10);
+            if(Button.ESCAPE.isDown()){
+                break;
+            }
         }
 
         ArrayList<Integer> result = new ArrayList();
@@ -243,7 +301,7 @@ public class Hangman {
             while(colorID != black){
                 Delay.msDelay(10);
                 colorID = sensor.getColorID();
-                System.out.println(colorID);
+                //System.out.println(colorID);
                 if (colorID == red){
                     Delay.msDelay(200);
                 }
@@ -254,6 +312,9 @@ public class Hangman {
                         result.add(i);
                     }
                 }
+                if(Button.ESCAPE.isDown()){
+                    break;
+                }
             }
             // Drive over separator
             Delay.msDelay(10);
@@ -261,6 +322,9 @@ public class Hangman {
             while(colorID == black){
                 colorID = sensor.getColorID();
                 Delay.msDelay(10);
+                if(Button.ESCAPE.isDown()){
+                    break;
+                }
             }
         }
         robot.move.stop();
@@ -268,8 +332,8 @@ public class Hangman {
         robot.move.backward();
         Delay.msDelay(3500);
         robot.move.stop();
-        System.out.println(Arrays.toString(result.toArray()));
-        Button.ESCAPE.waitForPressAndRelease();
+        //System.out.println(Arrays.toString(result.toArray()));
+        //Button.ESCAPE.waitForPressAndRelease();
         return result;
     }
     // Done

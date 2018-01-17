@@ -21,8 +21,8 @@ public class WordList {
     LinkedHashMap<Character, Integer> letterCounts = new LinkedHashMap<>();
 
     public WordList(){
-            System.out.println("Working Directory = " +
-              System.getProperty("user.dir"));
+            //System.out.println("Working Directory = " +
+              //System.getProperty("user.dir"));
 
 
         // JSON not working on EV3
@@ -87,14 +87,14 @@ public class WordList {
     public char getBestGuess(ArrayList<Character> guesses){
         // Java 7
         letterCounts = MapUtil.sortByValueDesc(letterCounts);
-        System.out.println(letterCounts);
+        //System.out.println(letterCounts);
 
         Iterator<Map.Entry<Character, Integer>> iterator = letterCounts.entrySet().iterator();
         Character character = null;
         while(iterator.hasNext()){
             Map.Entry<Character,Integer> entry = iterator.next();
             character = entry.getKey();
-            System.out.println(character);
+            //System.out.println(character);
             if(guesses.contains(character)){
                 continue;
             }
